@@ -1,31 +1,39 @@
 #include <stdio.h>
 
 int main() {
-    int n, i;
-    int arr[100];
+    int n1, n2, i = 0, j = 0, k = 0;
+    int log1[50], log2[50], merged[100];
 
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
+    printf("Enter number of entries in log1: ");
+    scanf("%d", &n1);
+    printf("Enter log1 entries:\n");
+    for (i = 0; i < n1; i++)
+        scanf("%d", &log1[i]);
 
-    printf("Enter elements:\n");
-    for (i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
+    printf("Enter number of entries in log2: ");
+    scanf("%d", &n2);
+    printf("Enter log2 entries:\n");
+    for (i = 0; i < n2; i++)
+        scanf("%d", &log2[i]);
+
+    i = j = k = 0;
+
+    while (i < n1 && j < n2) {
+        if (log1[i] <= log2[j])
+            merged[k++] = log1[i++];
+        else
+            merged[k++] = log2[j++];
     }
 
-    int left = 0, right = n - 1;
-    while (left < right) {
-        int temp = arr[left];
-        arr[left] = arr[right];
-        arr[right] = temp;
+    while (i < n1)
+        merged[k++] = log1[i++];
 
-        left++;
-        right--;
-    }
+    while (j < n2)
+        merged[k++] = log2[j++];
 
-    printf("Reversed array:\n");
-    for (i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
+    printf("Merged chronological log:\n");
+    for (i = 0; i < k; i++)
+        printf("%d ", merged[i]);
 
     return 0;
 }
