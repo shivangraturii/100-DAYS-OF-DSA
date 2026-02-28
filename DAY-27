@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+Node* getIntersectionNode(Node* headA, Node* headB) {
+    if (headA == NULL || headB == NULL)
+        return NULL;
+
+    Node* pA = headA;
+    Node* pB = headB;
+
+    while (pA != pB) {
+        pA = (pA == NULL) ? headB : pA->next;
+        pB = (pB == NULL) ? headA : pB->next;
+    }
+
+    return pA;
+}
+
+int main() {
+    Node* common = createNode(30);
+    common->next = createNode(40);
+    common->next->next = createNode(50);
+
+    Node* headA = createNode(10);
+    headA->next = createNode(20);
+    headA->next->next = common;
+
+    Node* headB = createNode(15);
+    headB->next = common;
+
+    Node* intersection = getIntersectionNode(headA, headB);
+
+    if (intersection != NULL)
+        printf("Intersection at node with value: %d\n", intersection->data);
+    else
+        printf("No intersection found\n");
+
+    return 0;
+}
