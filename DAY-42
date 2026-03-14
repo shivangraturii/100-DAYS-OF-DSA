@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int queue[MAX];
+int stack[MAX];
+int front = 0, rear = -1;
+int top = -1;
+
+// Enqueue
+void enqueue(int x)
+{
+    queue[++rear] = x;
+}
+
+// Dequeue
+int dequeue()
+{
+    return queue[front++];
+}
+
+// Push into stack
+void push(int x)
+{
+    stack[++top] = x;
+}
+
+// Pop from stack
+int pop()
+{
+    return stack[top--];
+}
+
+// Display queue
+void display()
+{
+    for(int i = front; i <= rear; i++)
+        printf("%d ", queue[i]);
+    printf("\n");
+}
+
+int main()
+{
+    int n, x;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+    for(int i = 0; i < n; i++)
+    {
+        scanf("%d", &x);
+        enqueue(x);
+    }
+
+    // Step 1: Move queue elements to stack
+    for(int i = 0; i < n; i++)
+        push(dequeue());
+
+    // Step 2: Move stack elements back to queue
+    for(int i = 0; i < n; i++)
+        enqueue(pop());
+
+    printf("Reversed Queue: ");
+    display();
+
+    return 0;
+}
