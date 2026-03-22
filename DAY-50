@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* insert(struct Node* root, int value) {
+    if (root == NULL)
+        return createNode(value);
+
+    if (value < root->data)
+        root->left = insert(root->left, value);
+    else if (value > root->data)
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+struct Node* searchBST(struct Node* root, int key) {
+    while (root != NULL) {
+        if (root->data == key)
+            return root;
+        else if (key < root->data)
+            root = root->left;
+        else
+            root = root->right;
+    }
+    return NULL;
+}
+
+void inorder(struct Node* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+int main() {
+    struct Node* root = NULL;
+    int n, value, key;
+
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &value);
+        root = insert(root, value);
+    }
+
+    inorder(root);
+    printf("\n");
+
+    scanf("%d", &key);
+
+    struct Node* result = searchBST(root, key);
+
+    if (result != NULL)
+        printf("Found\n");
+    else
+        printf("Not Found\n");
+
+    return 0;
+}
